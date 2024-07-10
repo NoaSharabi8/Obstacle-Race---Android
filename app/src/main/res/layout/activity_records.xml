@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".Activities.RecordsActivity"
+    android:background="@drawable/img_road2">
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/records_BTN_back"
+        style="@style/Widget.Material3.Button.Icon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:layout_marginStart="15dp"
+        android:backgroundTint="#BD1931"
+        app:icon="@drawable/ic_back1"
+        app:iconGravity="textEnd"
+        app:iconSize="45dp" />
+
+
+    <FrameLayout
+        android:id="@+id/records_FRAME_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="20dp"
+        />
+
+
+    <FrameLayout
+        android:id="@+id/records_FRAME_map"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="20dp"
+        />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
