@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".Activities.MainActivity"
     android:background="@drawable/img_road2">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -43,7 +43,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_heart" />
+            android:src="@drawable/ic_heart"/>
 
         <View
             android:layout_width="5dp"
@@ -62,6 +62,20 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/game_LBL_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/game_LAY_heartLayout"
+        android:layout_alignBottom="@id/game_LAY_heartLayout"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="20dp"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="#BD1931"
+        android:text="0"/>
+
     <LinearLayout
         android:id="@+id/game_rows"
         android:layout_width="match_parent"
@@ -70,6 +84,46 @@
         android:layout_above="@+id/game_buttons"
         android:gravity="center"
         android:layout_below="@id/game_LAY_heartLayout">
+
+        <LinearLayout
+            android:id="@+id/game_row4"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_row4col0"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_row4col1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_row4col2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_row4col3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_row4col4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
         <!-- Fourth Row -->
         <LinearLayout
             android:id="@+id/game_row3"
@@ -93,6 +147,18 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/game_row3col2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_row3col3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_row3col4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
@@ -125,6 +191,18 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_row2col3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_row2col4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
         </LinearLayout>
         <!-- Second Row -->
         <LinearLayout
@@ -153,6 +231,18 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_row1col3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_row1col4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
         </LinearLayout>
         <!-- First Row -->
         <LinearLayout
@@ -177,6 +267,18 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/game_row0col2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_row0col3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/game_row0col4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>

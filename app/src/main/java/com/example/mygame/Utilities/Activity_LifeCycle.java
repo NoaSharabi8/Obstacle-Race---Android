@@ -1,4 +1,4 @@
-package com.example.mygame;
+package com.example.mygame.Utilities;
 
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.mygame.R;
 import com.google.android.material.textview.MaterialTextView;
 
 public class Activity_LifeCycle extends AppCompatActivity {

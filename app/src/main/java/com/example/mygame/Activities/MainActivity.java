@@ -1,43 +1,87 @@
-package com.example.mygame;
+package com.example.mygame.Activities;
+
+import static java.lang.Integer.parseInt;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
+
+import com.example.mygame.Interfaces.StepCallback;
+import com.example.mygame.Logic.GameManager;
+import com.example.mygame.R;
+import com.example.mygame.Utilities.StepDetector;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textview.MaterialTextView;
+
 import java.util.Timer;
 import java.util.TimerTask;
-import android.os.Vibrator;
+
 
 public class MainActivity extends AppCompatActivity {
     private GameManager gameManager;
+    public static final int FAST_SPEED = 500;
+    public static final int SLOW_SPEED = 800;
     private MaterialButton game_BTN_left;
     private MaterialButton game_BTN_right;
     private AppCompatImageView[] game_IMG_hearts;
+    private MaterialTextView game_LBL_score;
     private AppCompatImageView[][] game_IMG_matrix;
     private Timer timer;
-    private final int DELAY = 1000;
+    private int DELAY = SLOW_SPEED;
+    private StepDetector stepDetector;
     MediaPlayer mp;
+    public static final String SP_KEY_NAME = "NAME";
+    public static final String SP_KEY_ADDRESS = "ADDRESS";
+    public static final String SP_KEY_SCORE = "SCORE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        gameManager = new GameManager(4,3,3, 2);
+        gameManager = new GameManager(5,5,3, 2);
         findViews();
+        initViews();
         updateLivesUI();
         initMainActorImage(gameManager.getColumns());
         updateMainActorView(gameManager.getMainActorPosition());
-
+        initMoveDetector();
         mp = MediaPlayer.create(this, R.raw.audio_miri);
+        Intent prev = getIntent();
+        setDELAY(parseInt(prev.getExtras().getString("SPEED")));
+        setMODE(parseInt(prev.getExtras().getString("MODE")));
+        startClock();
+    }
+
+    private void initViews() {
         game_BTN_left.setOnClickListener(v -> moveToLeft());
         game_BTN_right.setOnClickListener(v -> moveToRight());
-        startClock();
+        setReturnMode();
+    }
+
+    private void setReturnMode() {
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+
+            }
+        });
+    }
+    private void setMODE(int mode) {
+        if(mode==1) {
+            game_BTN_left.setVisibility(View.INVISIBLE);
+            game_BTN_right.setVisibility(View.INVISIBLE);
+            stepDetector.start();
+        }
     }
     private void startClock() {
         TimerTask task = new TimerTask() {
@@ -59,19 +103,19 @@ public class MainActivity extends AppCompatActivity {
         {
             if(!gameManager.getItems().get(ItemAboveMainActor).isGood()) {
                 mp.start(); //make sound
-                Toast.makeText(this, "\uD83D\uDDE3\uFE0F", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "תיסעעע", Toast.LENGTH_SHORT).show();
                 vibrate();
                 gameManager.decreaseLive();
                 updateLivesUI();
+            } else {
+                gameManager.incrementScore();
+                game_LBL_score.setText("" + gameManager.getScore());
             }
         }
         if (gameManager.getLives() == 0) {
-            lose();
+            finishGame();
             //return;
-        } /*else if (?) {
-            win();
-            return;}*/
-
+        }
         gameManager.takeStep();
         updateView();
     }
@@ -129,20 +173,34 @@ public class MainActivity extends AppCompatActivity {
     private void findViews() {
         game_BTN_left = findViewById(R.id.game_BTN_left);
         game_BTN_right = findViewById(R.id.game_BTN_right);
+        game_LBL_score = findViewById(R.id.game_LBL_score);
 
         game_IMG_matrix = new AppCompatImageView[][] {
                 {findViewById(R.id.game_row0col0),
-                findViewById(R.id.game_row0col1),
-                findViewById(R.id.game_row0col2)},
+                        findViewById(R.id.game_row0col1),
+                        findViewById(R.id.game_row0col2),
+                        findViewById(R.id.game_row0col3),
+                        findViewById(R.id.game_row0col4)},
                 {findViewById(R.id.game_row1col0),
-                findViewById(R.id.game_row1col1),
-                findViewById(R.id.game_row1col2)},
+                        findViewById(R.id.game_row1col1),
+                        findViewById(R.id.game_row1col2),
+                        findViewById(R.id.game_row1col3),
+                        findViewById(R.id.game_row1col4)},
                 {findViewById(R.id.game_row2col0),
-                findViewById(R.id.game_row2col1),
-                findViewById(R.id.game_row2col2)},
+                        findViewById(R.id.game_row2col1),
+                        findViewById(R.id.game_row2col2),
+                        findViewById(R.id.game_row2col3),
+                        findViewById(R.id.game_row2col4)},
                 {findViewById(R.id.game_row3col0),
-                findViewById(R.id.game_row3col1),
-                findViewById(R.id.game_row3col2)}
+                        findViewById(R.id.game_row3col1),
+                        findViewById(R.id.game_row3col2),
+                        findViewById(R.id.game_row3col3),
+                        findViewById(R.id.game_row3col4)},
+                {findViewById(R.id.game_row4col0),
+                        findViewById(R.id.game_row4col1),
+                        findViewById(R.id.game_row4col2),
+                        findViewById(R.id.game_row4col3),
+                        findViewById(R.id.game_row4col4)}
         };
 
         game_IMG_hearts = new AppCompatImageView[] {
@@ -152,11 +210,14 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.game_IMG_heart4),
         };
     }
-    private void lose() {
-        gameManager.setLives(3);
-        updateLivesUI();
-        //Toast.makeText(this, "You lose", Toast.LENGTH_SHORT).show();
-        //gameDone();
+    private void finishGame() {
+        Intent i = new Intent(this, GameOverActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("SCORE", ""+gameManager.getScore());
+        i.putExtras(bundle);
+        timer.cancel();
+        startActivity(i);
+        onPause();
     }
     private void vibrate() {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -168,14 +229,23 @@ public class MainActivity extends AppCompatActivity {
             v.vibrate(500);
         }
     }
+    private void setDELAY(int delay){
+        if(delay==0)
+            DELAY=SLOW_SPEED;
+        if(delay==1)
+            DELAY=FAST_SPEED;
 
- /*   private void gameDone() {
-        Log.d("pttt", "Game Done");
-        game_BTN_right.setEnabled(false);
-        game_BTN_left.setEnabled(false);
-        finish();
-    } */
-    /* private void win() {
-        Toast.makeText(this, "You win " + gameManager.getScore(), Toast.LENGTH_SHORT).show();
-        gameDone();} */
+    }
+    private void initMoveDetector() {
+        stepDetector = new StepDetector(this, new StepCallback() {
+            @Override
+            public void stepLeft() {
+                moveToLeft();
+            }
+            @Override
+            public void stepRight() {
+                moveToRight();
+            }
+        });
+    }
 }
